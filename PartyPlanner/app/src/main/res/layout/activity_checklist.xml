@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/checklistActivity"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".Checklist">
+
+    <CheckBox
+        android:id="@+id/venuecheck"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/tnccheck"
+        app:layout_constraintTop_toBottomOf="@+id/tnccheck" />
+
+    <CheckBox
+        android:id="@+id/invcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/foodcheck"
+        app:layout_constraintTop_toBottomOf="@+id/foodcheck" />
+
+    <CheckBox
+        android:id="@+id/tnccheck"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/invcheck"
+        app:layout_constraintTop_toBottomOf="@+id/invcheck" />
+
+    <CheckBox
+        android:id="@+id/foodcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/cakecheck"
+        app:layout_constraintTop_toBottomOf="@+id/cakecheck" />
+
+    <CheckBox
+        android:id="@+id/cakecheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="132dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="143dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="48dp"
+        android:text="Checklist"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/taskCompBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="301dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="32dp"
+        android:scaleY="13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+
+    <TextView
+        android:id="@+id/taskCompNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/taskCompBar"
+        app:layout_constraintEnd_toEndOf="@+id/taskCompBar"
+        app:layout_constraintStart_toStartOf="@+id/taskCompBar"
+        app:layout_constraintTop_toTopOf="@+id/taskCompBar" />
+
+    <EditText
+        android:id="@+id/plaintext"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Cake"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/cakecheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cakecheck"
+        app:layout_constraintTop_toTopOf="@+id/cakecheck" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Food"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/foodcheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/foodcheck"
+        app:layout_constraintTop_toTopOf="@+id/foodcheck" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Invitations"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/invcheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toEndOf="@+id/invcheck"
+        app:layout_constraintTop_toTopOf="@+id/invcheck" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Tables and chairs"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/tnccheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toEndOf="@+id/tnccheck"
+        app:layout_constraintTop_toTopOf="@+id/tnccheck" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Venue"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/venuecheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toEndOf="@+id/venuecheck"
+        app:layout_constraintTop_toTopOf="@+id/venuecheck"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

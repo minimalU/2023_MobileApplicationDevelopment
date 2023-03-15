@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_activity_main"
+        android:title="@string/start" />
+    <item
+        android:id="@+id/menu_activity_planner"
+        android:title="@string/planner" />
+    <item
+        android:id="@+id/menu_activity_checklist"
+        android:title="@string/checklist" />
+    <item
+        android:id="@+id/menu_activity_budget"
+        android:title="@string/budget" />
+    <item
+        android:id="@+id/menu_activity_food"
+        android:title="RECIPE" />
+</menu>

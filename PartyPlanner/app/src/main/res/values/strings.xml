@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PartyPlanner</string>
+    <string name="select_date">Please select a date</string>
+    <string name="date">DATE</string>
+    <string name="time">TIME</string>
+    <string name="theme">THEME</string>
+    <string name="budget">BUDGET</string>
+    <string name="guest">NO OF GUEST</string>
+    <string name="next">NEXT</string>
+    <string name="checklist">CHECKLIST</string>
+    <string name="planner">PLANNER</string>
+    <string name="start">START</string>
+    <string name="get_recipe">GET RECIPE</string>
+</resources>
