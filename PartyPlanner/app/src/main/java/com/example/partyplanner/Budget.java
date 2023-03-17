@@ -34,10 +34,8 @@ public class Budget extends AppCompatActivity {
         budgetText = (TextView) findViewById(R.id.BudgetValText);
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-        //int revBudget = bundle.getInt("BudgetVal");
-        //  Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'int android.os.Bundle.getInt(java.lang.String)' on a null object reference
-        //  at com.example.partyplanner.Budget.onCreate(Budget.java:23)
-        // budgetText.setText("CAD " +revBudget);
+        int revBudget = bundle.getInt("BudgetVal");
+        budgetText.setText("CAD " +revBudget);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         View cLayout = findViewById(R.id.BudgetActivity);

@@ -50,7 +50,6 @@ public class Planner extends AppCompatActivity {
         btn_to_add = (Button)findViewById(R.id.buttonSave);
         btn_to_next = (Button)findViewById(R.id.buttonNext);
 
-        //tv_budget = (TextView)findViewById(R.id.editTextBudget);
         et_date = (EditText)findViewById(R.id.editTextDate);
         et_time = (EditText)findViewById(R.id.editTextTime);
         et_theme = (EditText)findViewById(R.id.editTextTheme);
@@ -90,7 +89,9 @@ public class Planner extends AppCompatActivity {
         btn_to_next.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                int Budget = Integer.parseInt(et_budget.getText().toString());
                 Intent intent = new Intent(Planner.this, Budget.class);
+                intent.putExtra("BudgetVal", Budget);
                 startActivity(intent);
             }
         });
