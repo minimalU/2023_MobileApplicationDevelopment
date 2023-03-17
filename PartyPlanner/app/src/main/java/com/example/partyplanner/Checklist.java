@@ -71,6 +71,7 @@ public class Checklist extends AppCompatActivity {
             }
         });
 
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         View cLayout = findViewById(R.id.checklistActivity);
         cLayout.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +82,90 @@ public class Checklist extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(tv_Tv1.getWindowToken(), 0);
             }
         });
+        if (preferences.contains("checkbox2") && preferences.getBoolean("checkbox2", false) == true) {
+            checkBox2.setChecked(true);
+        } else {
+            checkBox2.setChecked(false);
 
+        }
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBox2.isChecked()) {
+                    editor.putBoolean("checkBox2", true);
+                    progressBar.setProgress(progressBar.getProgress()+20);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("checkBox2", false);
+                    progressBar.setProgress(progressBar.getProgress()-20);
+                    editor.apply();
+                }
+            }
+        });
+
+
+        if (preferences.contains("checkbox3") && preferences.getBoolean("checkbox3", false) == true) {
+            checkBox3.setChecked(true);
+        } else {
+            checkBox3.setChecked(false);
+
+        }
+        checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBox3.isChecked()) {
+                    editor.putBoolean("checkBox3", true);
+                    progressBar.setProgress(progressBar.getProgress()+20);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("checkBox3", false);
+                    progressBar.setProgress(progressBar.getProgress()-20);
+                    editor.apply();
+                }
+            }
+        });
+
+        if (preferences.contains("checkbox4") && preferences.getBoolean("checkbox4", false) == true) {
+            checkBox4.setChecked(true);
+        } else {
+            checkBox4.setChecked(false);
+
+        }
+        checkBox4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBox4.isChecked()) {
+                    editor.putBoolean("checkbox4", true);
+                    progressBar.setProgress(progressBar.getProgress()+20);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("checkbox4", false);
+                    progressBar.setProgress(progressBar.getProgress()-20);
+                    editor.apply();
+                }
+            }
+        });
+
+        if (preferences.contains("checkbox5") && preferences.getBoolean("checkbox5", false) == true) {
+            checkBox5.setChecked(true);
+        } else {
+            checkBox5.setChecked(false);
+
+        }
+        checkBox5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBox5.isChecked()) {
+                    editor.putBoolean("checkbox5", true);
+                    progressBar.setProgress(progressBar.getProgress()+20);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("checkbox5", false);
+                    progressBar.setProgress(progressBar.getProgress()-20);
+                    editor.apply();
+                }
+            }
+        });
         //checklistListView = findViewById(R.id.listview);
         items = new ArrayList<>();
         items.add("Finalize Guest");
