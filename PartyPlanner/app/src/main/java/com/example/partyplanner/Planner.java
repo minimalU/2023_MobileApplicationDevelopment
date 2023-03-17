@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,9 +37,11 @@ public class Planner extends AppCompatActivity {
     Button btn_to_budget, btn_to_add, btn_to_next;
     EditText et_date, et_time, et_theme, et_guest, et_budget;
     TextView tv_budget;
-
     String partyDate;
+
     private static final String TAG = "Planner";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,4 +162,39 @@ public class Planner extends AppCompatActivity {
         }
         return result;
     }
+
+
+    public class BackgroundTask extends AsyncTask<String, Void, Long> {
+
+        Context context;
+        DBHelper dataBaseHelper;
+        long result;
+
+        BackgroundTask(Context ctx){
+            context = ctx;
+            dataBaseHelper = new DBHelper(ctx);
+        }
+
+        @Override
+        protected Long doInBackground(String... strings) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            super.onPostExecute(aLong);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
 }
