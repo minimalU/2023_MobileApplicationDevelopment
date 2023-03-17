@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 result = true;
                 break;
+            case R.id.menu_activity_explore:
+                intent = new Intent(this, Explore.class);
+                startActivity(intent);
+                result = true;
+                break;
             case R.id.menu_activity_partylist:
                 intent = new Intent(this, Partylist.class);
                 startActivity(intent);

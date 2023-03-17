@@ -40,6 +40,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".Explore"
+            android:exported="false" />
+
+        <activity
             android:name=".Food"
             android:exported="false" />
         <activity android:name=".SingleItem"/>

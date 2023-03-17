@@ -86,7 +86,6 @@
         android:layout_height="48dp"
         android:ems="10"
         android:hint="Cake"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/cakecheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cakecheck"
