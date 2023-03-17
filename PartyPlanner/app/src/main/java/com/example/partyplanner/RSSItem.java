@@ -1,3 +1,11 @@
+// FILE         : RSSItem.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This RSSItem class file has constructor, getter, setter for RSSItem class.
+// REFERENCE    : Week6_WorkWithFIles
+
+
 package com.example.partyplanner;
 
 import android.annotation.SuppressLint;

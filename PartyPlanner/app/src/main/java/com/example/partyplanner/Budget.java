@@ -1,3 +1,11 @@
+// FILE         : Budget.java
+// PROJECT      : A2PartyPlanner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This is AppCompatActivity class file.
+// It has budget activity and user completes their Budget information though this activity.
+
+
 package com.example.partyplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +61,7 @@ public class Budget extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result = false;
@@ -76,6 +85,16 @@ public class Budget extends AppCompatActivity {
                 break;
             case R.id.menu_activity_checklist:
                 intent = new Intent(this, Checklist.class);
+                startActivity(intent);
+                result = true;
+                break;
+            case R.id.menu_activity_food:
+                intent = new Intent(this, Food.class);
+                startActivity(intent);
+                result = true;
+                break;
+            case R.id.menu_activity_partylist:
+                intent = new Intent(this, Partylist.class);
                 startActivity(intent);
                 result = true;
                 break;

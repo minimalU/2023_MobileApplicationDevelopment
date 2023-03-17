@@ -1,3 +1,11 @@
+// FILE         : DBHelper.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-15
+// DESCRIPTION  : This file is SQLiteOpenHelper class file.
+// It creates the data base table and add data into a table
+// and delete data from a table and get data as an ArrayList.
+
 package com.example.partyplanner;
 
 import androidx.annotation.NonNull;
@@ -34,19 +42,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // set calendar and textview for the selected date
         cv_Calendar = (CalendarView) findViewById(R.id.cal);
         tv_calDateText = (TextView)findViewById(R.id.tv_calDateText);
         btn_Plan = (Button)findViewById(R.id.button_plan);
-
 
         // selected date from calendar
         cv_Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                tv_calDateText.setText(year + " - " + (month+1) + " - " + dayOfMonth);
+                tv_calDateText.setText(year + "-" + (month+1) + "-" + dayOfMonth);
             }
         });
 
@@ -102,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_activity_food:
                 intent = new Intent(this, Food.class);
+                startActivity(intent);
+                result = true;
+                break;
+            case R.id.menu_activity_partylist:
+                intent = new Intent(this, Partylist.class);
                 startActivity(intent);
                 result = true;
                 break;

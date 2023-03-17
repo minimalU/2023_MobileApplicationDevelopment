@@ -7,12 +7,15 @@
         android:id="@+id/menu_activity_planner"
         android:title="@string/planner" />
     <item
-        android:id="@+id/menu_activity_checklist"
-        android:title="@string/checklist" />
-    <item
         android:id="@+id/menu_activity_budget"
         android:title="@string/budget" />
     <item
+        android:id="@+id/menu_activity_checklist"
+        android:title="@string/checklist" />
+    <item
+        android:id="@+id/menu_activity_partylist"
+        android:title="@string/party_list" />
+    <item
         android:id="@+id/menu_activity_food"
-        android:title="RECIPE" />
+        android:title="@string/recipe" />
 </menu>

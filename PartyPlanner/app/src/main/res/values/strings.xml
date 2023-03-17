@@ -10,5 +10,14 @@
     <string name="checklist">CHECKLIST</string>
     <string name="planner">PLANNER</string>
     <string name="start">START</string>
+    <string name="save">SAVE</string>
+    <string name="add">ADD</string>
+    <string name="delete">DELETE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="party_list">PARTY LIST</string>
+    <string name="recipe">RECIPE</string>
+    <string name="all_schedule">ALL SCHEDULE</string>
     <string name="get_recipe">GET RECIPE</string>
+    <string name="space"> </string>
+    <string name="delete_schedule">Do you want to delete the party schedule?</string>
 </resources>

@@ -1,3 +1,11 @@
+// FILE         : SingleItem.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This SingleItem is Acitivity class file. It is a follow-up Activity along with selection of RSS feeds.
+// SingleItem allows user to explore the Uri of the selected feed.
+// REFERENCE    : Week6_WorkWithFIles
+
 package com.example.partyplanner;
 
 import android.app.Activity;
@@ -50,12 +58,5 @@ public class SingleItem extends Activity
         // create the intent and start it
         Intent viewIntent = new Intent(Intent.ACTION_VIEW, viewUri);
         startActivity(viewIntent);
-
-        // This code uses a WebView widget to open the browser within the app
-        /*
-        Intent out = new Intent(getApplicationContext(), ItemWebView.class);
-        out.putExtra("link", in.getStringExtra("link"));
-        startActivity(out);
-        */
     }
 }

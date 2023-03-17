@@ -1,3 +1,12 @@
+// FILE         : Food.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This file is AdapterView class file.
+// Food is AdapterView for RSSFeed, and gets RSS feeds and displays them.
+// REFERENCE    : Week6_WorkWithFIles
+
+
 package com.example.partyplanner;
 
 import android.annotation.SuppressLint;

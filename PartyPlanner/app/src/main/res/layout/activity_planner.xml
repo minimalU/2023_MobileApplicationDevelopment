@@ -8,12 +8,36 @@
     android:background="@drawable/bg1"
     tools:context=".Planner">
 
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:backgroundTint="@color/teal_700"
+        android:text="@string/next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.971"
+        app:layout_constraintStart_toEndOf="@+id/buttonSave"
+        app:layout_constraintTop_toTopOf="@+id/buttonSave" />
+
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="91dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/date"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/guest"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="48dp"
         android:text="@string/guest"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -42,33 +66,33 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/date"
         android:layout_width="91dp"
         android:layout_height="25dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="48dp"
         android:text="@string/time"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/time2" />
 
     <EditText
         android:id="@+id/editTextTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="230dp"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:ems="10"
         android:hint="11:00"
         android:inputType="time"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/time"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/time"
-        app:layout_constraintTop_toTopOf="@+id/time"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toTopOf="@+id/date"
         tools:ignore="HardcodedText" />
 
     <EditText
@@ -88,8 +112,8 @@
 
     <EditText
         android:id="@+id/editTextBudget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="230dp"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:ems="10"
         android:hint="250.00"
@@ -100,43 +124,47 @@
         app:layout_constraintStart_toEndOf="@+id/budget"
         app:layout_constraintTop_toTopOf="@+id/budget" />
 
-    <NumberPicker
-        android:id="@+id/numberPicker"
+    <Button
+        android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_guestNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
-        app:layout_constraintStart_toEndOf="@+id/tv_guestNumber"
-        app:layout_constraintTop_toTopOf="@+id/tv_guestNumber"
-        app:layout_constraintVertical_bias="0.235" />
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/teal_700"
+        android:text="@string/save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextGuestNo" />
 
-    <TextView
-        android:id="@+id/tv_guestNumber"
-        android:layout_width="70dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="44dp"
-        android:hint="0"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="230dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="2023-01-01"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="@+id/time2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/time2"
+        app:layout_constraintTop_toTopOf="@+id/time2"
+        app:layout_constraintVertical_bias="0.347" />
+
+    <EditText
+        android:id="@+id/editTextGuestNo"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="3"
+        android:inputType="numberSigned"
         app:layout_constraintBottom_toBottomOf="@+id/guest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toEndOf="@+id/guest"
         app:layout_constraintTop_toTopOf="@+id/guest"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_guestNumber"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.6" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

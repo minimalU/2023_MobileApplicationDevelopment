@@ -1,3 +1,11 @@
+// FILE         : RSSHandler.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This file is DefaultHandler class file. RSSHandler parses the contents.
+// REFERENCE    : Week6_WorkWithFIles
+
+
 package com.example.partyplanner;
 
 import org.xml.sax.Attributes;

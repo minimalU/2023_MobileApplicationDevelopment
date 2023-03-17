@@ -1,3 +1,14 @@
+// FILE         : Planner.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-15
+// DESCRIPTION  : This file is AppCompatActivity class file.
+// Partylist allows the user to complete party information and store it into SQLite database
+// REFERENCE    : 7_sql_database
+// https://www.youtube.com/watch?v=toDZ9X5uSXw&list=PLzkhjlqMgxvBxi3Wyak9NicQI7UwhFU2O&index=89
+// https://www.youtube.com/watch?v=312RhjfetP8
+
+
 package com.example.partyplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,72 +18,92 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class Planner extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
+public class Planner extends AppCompatActivity {
 
     // TextView tv_partyDate;
-    Button btn_to_budget;
+    Button btn_to_budget, btn_to_add, btn_to_next;
+    EditText et_date, et_time, et_theme, et_guest, et_budget;
     TextView tv_budget;
-    private TextView tv_guestNumber;
 
+    String partyDate;
+    private static final String TAG = "Planner";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planner);
 
-        btn_to_budget = (Button) findViewById(R.id.button);
-        tv_budget = (TextView) findViewById(R.id.editTextBudget);
-        NumberPicker numberPicker = (NumberPicker) findViewById(R.id.numberPicker);
-        // Numberpicker
-        tv_guestNumber=(TextView) findViewById(R.id.tv_guestNumber);
+        btn_to_add = (Button)findViewById(R.id.buttonSave);
+        btn_to_next = (Button)findViewById(R.id.buttonNext);
 
-        numberPicker.setMinValue(0);
-        numberPicker.setMinValue(5);
-        numberPicker.setValue(3);
+        //tv_budget = (TextView)findViewById(R.id.editTextBudget);
+        et_date = (EditText)findViewById(R.id.editTextDate);
+        et_time = (EditText)findViewById(R.id.editTextTime);
+        et_theme = (EditText)findViewById(R.id.editTextTheme);
+        et_guest = (EditText)findViewById(R.id.editTextGuestNo);
+        et_budget = (EditText)findViewById(R.id.editTextBudget);
 
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        try{
+            Intent intent = getIntent();
+            partyDate = intent.getStringExtra("partyDate");
+            et_date.setText(partyDate);
+        }
+        catch (Exception e) {
+            Log.d(TAG, "party date is not completed from MainActivity");
+        }
+
+
+        // add button onclick listener
+        btn_to_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
-                tv_guestNumber.setText(newVal);
+            public void onClick(View view) {
+                ScheduleData scheduleData;
+                try {
+                    scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
+                    // Toast.makeText(Planner.this, scheduleData.toString(), Toast.LENGTH_SHORT).show();
+                    DBHelper dataBaseHelper = new DBHelper(Planner.this);
+                    boolean returnValue = dataBaseHelper.addItem(scheduleData);
+                    // Toast.makeText(Planner.this, "returnValue: " + returnValue, Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(Planner.this, "Error: Party schedule cannot be added", Toast.LENGTH_SHORT).show();
+                    // scheduleData = new ScheduleData(-1, "error", "error" , "error", 0, 0);
+                    Log.e(TAG, "Adding ScheduleData");
+                }
             }
         });
 
-        btn_to_budget.setOnClickListener(new View.OnClickListener() {
+        btn_to_next.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-               // int Budget = Integer.parseInt(tv_budget.getText().toString());
                 Intent intent = new Intent(Planner.this, Budget.class);
-                //intent.putExtra("BudgetVal", Budget);
                 startActivity(intent);
             }
-
         });
 
 
-
-
-        View pLayout = findViewById(R.id.PlannerActivity);
-        pLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)tv_budget.getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(tv_budget.getWindowToken(), 0);
-            }
-        });
+//        View pLayout = findViewById(R.id.PlannerActivity);
+//        pLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                InputMethodManager imm = (InputMethodManager)tv_budget.getContext()
+//                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(tv_budget.getWindowToken(), 0);
+//            }
+//        });
     }
 
-    @Override
-    public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
-        tv_guestNumber.setText(newVal);
-    }
+
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -82,6 +113,8 @@ public class Planner extends AppCompatActivity implements NumberPicker.OnValueCh
         m.setOptionalIconsVisible(true);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,6 +139,16 @@ public class Planner extends AppCompatActivity implements NumberPicker.OnValueCh
                 break;
             case R.id.menu_activity_checklist:
                 intent = new Intent(this, Checklist.class);
+                startActivity(intent);
+                result = true;
+                break;
+            case R.id.menu_activity_food:
+                intent = new Intent(this, Food.class);
+                startActivity(intent);
+                result = true;
+                break;
+            case R.id.menu_activity_partylist:
+                intent = new Intent(this, Partylist.class);
                 startActivity(intent);
                 result = true;
                 break;

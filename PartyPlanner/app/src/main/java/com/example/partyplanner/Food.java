@@ -1,3 +1,11 @@
+// FILE         : Food.java
+// PROJECT      : Party Planner
+// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
+// FIRST VERSION: 2023-03-10
+// DESCRIPTION  : This file is AdapterView class file.
+// Food is AdapterView for RSSFeed, and gets RSS feeds and displays them.
+// REFERENCE    : Week6_WorkWithFIles
+
 package com.example.partyplanner;
 
 
@@ -87,19 +95,19 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
                     out.write(buffer, 0, bytesRead);
                     bytesRead = in.read(buffer);
                 }
-                Log.i("MyApp", sb.toString());
+                Log.i("Food", sb.toString());
                 out.close();
                 in.close();
             }
             catch (IOException e) {
-                Log.e("News reader", e.toString());
+                Log.e("Recipe RSSFeed reader", e.toString());
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            Log.d("News reader", "Feed downloaded: " + new Date());
+            Log.d("Recipe RSSFeed reader", "RSS Feed downloaded: " + new Date());
             new ReadFeed().execute();
         }
     }
@@ -130,7 +138,7 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
                 return feed;
             }
             catch (Exception e) {
-                Log.e("News reader", e.toString());
+                Log.e("Recipe RSSFeed reader", e.toString());
                 return null;
             }
         }
@@ -138,7 +146,7 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
         // This is executed after the feed has been read
         @Override
         protected void onPostExecute(RSSFeed result) {
-            Log.d("News reader", "Feed read: " + new Date());
+            Log.d("Recipe RSSFeed reader", "Feed read: " + new Date());
 
             // update the display for the activity
             Food.this.feed = result;
@@ -179,7 +187,7 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
         itemListView.setOnItemClickListener(this);
         itemListView.setAdapter(adapter);
 
-        Log.d("News reader", "Feed displayed: " + new Date());
+        Log.d("Recipe RSSFeed reader", "Feed displayed: " + new Date());
     }
 
     @Override
@@ -194,7 +202,7 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
         // create an intent
         Intent intent = new Intent(this, SingleItem.class);
 
-        intent.putExtra("pubdate", item.getPubDate());
+        intent.putExtra("date", item.getPubDate());
         intent.putExtra("title", item.getTitle());
         intent.putExtra("description", item.getDescription());
         intent.putExtra("link", item.getLink());

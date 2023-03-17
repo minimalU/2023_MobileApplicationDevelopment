@@ -32,6 +32,12 @@
         <activity
             android:name=".Checklist"
             android:exported="false" />
+        <activity
+            android:name=".Partylist"
+            android:exported="false" />
+        <activity
+            android:name=".DeleteWindow"
+            android:exported="false" />
 
         <activity
             android:name=".Food"
