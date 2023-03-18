@@ -4,7 +4,7 @@
 // FIRST VERSION: 2023-03-15
 // DESCRIPTION  : This file is AppCompatActivity class file.
 // Partylist allows the user to complete party information and store it into SQLite database
-// REFERENCE    : 7_sql_database
+// REFERENCE    : 6_RESTWithURLConnection, 7_sql_database
 // https://www.youtube.com/watch?v=toDZ9X5uSXw&list=PLzkhjlqMgxvBxi3Wyak9NicQI7UwhFU2O&index=89
 // https://www.youtube.com/watch?v=312RhjfetP8
 
@@ -33,7 +33,6 @@ import android.widget.Toast;
 
 public class Planner extends AppCompatActivity {
 
-    // TextView tv_partyDate;
     Button btn_to_budget, btn_to_add, btn_to_next;
     EditText et_date, et_time, et_theme, et_guest, et_budget;
     TextView tv_budget;
@@ -50,12 +49,12 @@ public class Planner extends AppCompatActivity {
         btn_to_add = (Button)findViewById(R.id.buttonSave);
         btn_to_next = (Button)findViewById(R.id.buttonNext);
 
-        //tv_budget = (TextView)findViewById(R.id.editTextBudget);
         et_date = (EditText)findViewById(R.id.editTextDate);
         et_time = (EditText)findViewById(R.id.editTextTime);
         et_theme = (EditText)findViewById(R.id.editTextTheme);
         et_guest = (EditText)findViewById(R.id.editTextGuestNo);
         et_budget = (EditText)findViewById(R.id.editTextBudget);
+
 
         try{
             Intent intent = getIntent();
@@ -73,16 +72,18 @@ public class Planner extends AppCompatActivity {
             public void onClick(View view) {
                 ScheduleData scheduleData;
                 try {
-                    scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
-                    // Toast.makeText(Planner.this, scheduleData.toString(), Toast.LENGTH_SHORT).show();
-                    DBHelper dataBaseHelper = new DBHelper(Planner.this);
-                    boolean returnValue = dataBaseHelper.addItem(scheduleData);
+                    BackgroundTask task = new BackgroundTask(Planner.this);
+                    task.execute();
+
+                    // scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
+                    // DBHelper dataBaseHelper = new DBHelper(Planner.this);
+                    // boolean returnValue = dataBaseHelper.addItem(scheduleData);
                     // Toast.makeText(Planner.this, "returnValue: " + returnValue, Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e) {
-                    Toast.makeText(Planner.this, "Error: Party schedule cannot be added", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(Planner.this, "Error: Party schedule cannot be added", Toast.LENGTH_SHORT).show();
                     // scheduleData = new ScheduleData(-1, "error", "error" , "error", 0, 0);
-                    Log.e(TAG, "Adding ScheduleData");
+                    Log.e(TAG, "BackgroundTask Error");
                 }
             }
         });
@@ -90,23 +91,22 @@ public class Planner extends AppCompatActivity {
         btn_to_next.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Planner.this, Budget.class);
-                startActivity(intent);
+                try{
+                    double budget = Double.parseDouble(et_budget.getText().toString());
+                    Intent intent = new Intent(Planner.this, Budget.class);
+                    intent.putExtra("budget", budget);
+                    Planner.this.startActivity(intent);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(Planner.this, "Please complete the party schedule details", Toast.LENGTH_SHORT).show();
+                    // scheduleData = new ScheduleData(-1, "error", "error" , "error", 0, 0);
+                    Log.e(TAG, "ScheduleData completion");
+                }
             }
         });
 
-
-//        View pLayout = findViewById(R.id.PlannerActivity);
-//        pLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                InputMethodManager imm = (InputMethodManager)tv_budget.getContext()
-//                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(tv_budget.getWindowToken(), 0);
-//            }
-//        });
     }
-
 
 
     @SuppressLint("RestrictedApi")
@@ -164,8 +164,7 @@ public class Planner extends AppCompatActivity {
     }
 
 
-    public class BackgroundTask extends AsyncTask<String, Void, Long> {
-
+    public class BackgroundTask extends AsyncTask<Void, Void, Void> {
         Context context;
         DBHelper dataBaseHelper;
         long result;
@@ -176,7 +175,16 @@ public class Planner extends AppCompatActivity {
         }
 
         @Override
-        protected Long doInBackground(String... strings) {
+        protected Void doInBackground(Void... unused) {
+            try{
+                ScheduleData scheduleData;
+                scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
+                DBHelper dataBaseHelper = new DBHelper(Planner.this);
+                boolean returnValue = dataBaseHelper.addItem(scheduleData);
+            }
+            catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
 
             return null;
         }
@@ -187,8 +195,8 @@ public class Planner extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Long aLong) {
-            super.onPostExecute(aLong);
+        protected void onPostExecute(Void v) {
+            Toast.makeText(context, "Thank you", Toast.LENGTH_LONG).show();
         }
 
         @Override

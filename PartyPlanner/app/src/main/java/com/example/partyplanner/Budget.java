@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,20 +25,26 @@ import android.widget.TextView;
 public class Budget extends AppCompatActivity {
 
     TextView budgetText;
+
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
 
-
         budgetText = (TextView) findViewById(R.id.BudgetValText);
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-        //int revBudget = bundle.getInt("BudgetVal");
-        //  Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'int android.os.Bundle.getInt(java.lang.String)' on a null object reference
-        //  at com.example.partyplanner.Budget.onCreate(Budget.java:23)
-        // budgetText.setText("CAD " +revBudget);
+
+        double revBudget;
+        try{
+            Intent intent = getIntent();
+            revBudget = intent.getDoubleExtra("budget", 0.00);
+            budgetText.setText("CAD " + revBudget);
+        }
+        catch (Exception e) {
+            Log.e("Budget", "Error");
+            revBudget = 0.00;
+            budgetText.setText("CAD " + revBudget);
+        }
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         View cLayout = findViewById(R.id.BudgetActivity);

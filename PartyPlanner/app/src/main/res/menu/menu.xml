@@ -18,7 +18,7 @@
     <item
         android:id="@+id/menu_activity_food"
         android:title="@string/recipe" />
-    <item
-        android:id="@+id/menu_activity_explore"
-        android:title="EXPLORE" />
+<!--    <item-->
+<!--        android:id="@+id/menu_activity_explore"-->
+<!--        android:title="EXPLORE" />-->
 </menu>

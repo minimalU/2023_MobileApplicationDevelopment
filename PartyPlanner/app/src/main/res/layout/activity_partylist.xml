@@ -22,17 +22,9 @@
         android:id="@+id/buttonList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarList"
-        tools:layout_editor_absoluteX="89dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBarList"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="@string/party_list"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="63dp" />
+        tools:layout_editor_absoluteX="89dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,8 +41,6 @@ import java.util.List;
 public class Partylist extends AppCompatActivity {
 
     Button button_list;
-    ProgressBar progress_list;
-    int pv_value;
     ListView party_list;
     ScheduleData scheduleSelected;
     DBHelper dbHelper;
@@ -53,13 +51,11 @@ public class Partylist extends AppCompatActivity {
         setContentView(R.layout.activity_partylist);
 
         button_list = findViewById(R.id.buttonList);
-        progress_list = findViewById(R.id.progressBarList);
+
         party_list = findViewById(R.id.listViewPartylist);
         dbHelper = new DBHelper(Partylist.this);
 
         button_list.setOnClickListener((v -> {
-//            BackgroundTask task = new BackgroundTask();
-//            task.execute();
 
             List<ScheduleData> allList = dbHelper.getSchedule();
             ArrayAdapter partylistArrayAdaptor = new ArrayAdapter<ScheduleData>(Partylist.this, android.R.layout.simple_list_item_1, allList);
@@ -141,41 +137,4 @@ public class Partylist extends AppCompatActivity {
     }
 
 
-    class BackgroundTask extends AsyncTask<Integer, Integer, Integer> {
-        // invoke UI thread before the task executed
-        @Override
-        protected void onPreExecute() {
-            pv_value = 0;
-            progress_list.setProgress(pv_value);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            progress_list.setProgress(0);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progress_list.setProgress(values[0].intValue());
-        }
-
-        // invoke on the background thread after onPreExecute() finishes executing
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            while (isCancelled() == false) {
-                pv_value += 10;
-                if(pv_value >= 100) {
-                    break;
-                }
-                publishProgress(pv_value);
-                try{
-                    Thread.sleep(500);
-                }
-                catch (Exception e) {
-                    Log.e("Partylst","Tread.sleep Error");
-                }
-            }
-            return pv_value; // pass the value to onPostExecute
-        }
-    }
 }

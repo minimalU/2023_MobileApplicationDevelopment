@@ -195,7 +195,7 @@ public class Food extends Activity implements AdapterView.OnItemClickListener
                             int position, long id) {
 
 
-        Toast.makeText(this, "In OnClick", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "In OnClick", Toast.LENGTH_SHORT).show();
         // get the item at the specified position
         RSSItem item = feed.getItem(position);
 
