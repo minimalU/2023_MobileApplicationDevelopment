@@ -147,7 +147,7 @@ public class Planner extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.menu_activity_food:
-                intent = new Intent(this, Food.class);
+                intent = new Intent(this, PartyFood.class);
                 startActivity(intent);
                 result = true;
                 break;

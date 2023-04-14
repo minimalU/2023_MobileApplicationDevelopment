@@ -1,63 +1,81 @@
-// FILE         : Budget.java
-// PROJECT      : A2PartyPlanner
-// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
-// FIRST VERSION: 2023-03-10
-// DESCRIPTION  : This is AppCompatActivity class file.
-// It has budget activity and user completes their Budget information though this activity.
-
 
 package com.example.partyplanner;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
+public class PartyFood extends AppCompatActivity {
 
-public class Budget extends AppCompatActivity {
+    private Button btService;
+    private TextView txService;
+    private boolean bService = false;
+    private WebView webView;
+    private pfReceiver receiver;
 
-    TextView budgetText;
-
-    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget);
+        setContentView(R.layout.activity_partyfood);
 
-        budgetText = (TextView) findViewById(R.id.BudgetValText);
+        btService = findViewById(R.id.btn_check);
+        txService = findViewById(R.id.tv_check_result);
+        webView = (WebView) findViewById(R.id.wv_partyfood);
 
-        double revBudget;
-        try{
-            Intent intent = getIntent();
-            revBudget = intent.getDoubleExtra("budget", 0.00);
-            budgetText.setText("CAD " + revBudget);
-        }
-        catch (Exception e) {
-            Log.e("Budget", "Error");
-            revBudget = 0.00;
-            budgetText.setText("CAD " + revBudget);
-        }
-
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        View cLayout = findViewById(R.id.BudgetActivity);
-        cLayout.setOnClickListener(new View.OnClickListener() {
+        btService.setOnClickListener((new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)budgetText.getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(budgetText.getWindowToken(), 0);
+            public void onClick(View v) {
+                exeService();
             }
-        });
+        }));
+
+        receiver = new pfReceiver();
+        IntentFilter intentFilter = new IntentFilter("pfService");
+        registerReceiver(receiver, intentFilter);
+
+        // setup webview
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://houseandhome.com/category/food/");
+
+        WebSettings setting = webView.getSettings();
+        setting.setJavaScriptEnabled(true);
     }
 
+    protected void exeService() {
+        Intent intent = new Intent(this, pfService.class);
+        if (!bService) {
+            startService(intent);
+            btService.setText("STOP");
+            txService.setText("checking connectivity");
+        }
+        else {
+            stopService(intent);
+            btService.setText("CHECK");
+            txService.setText("connectivity check is done");
+        }
+        bService = !bService;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -67,7 +85,6 @@ public class Budget extends AppCompatActivity {
         m.setOptionalIconsVisible(true);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,10 +113,17 @@ public class Budget extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.menu_activity_food:
+                //intent = new Intent(this, Food.class);
                 intent = new Intent(this, PartyFood.class);
                 startActivity(intent);
                 result = true;
                 break;
+
+//            case R.id.menu_activity_explore:
+//                intent = new Intent(this, Explore.class);
+//                startActivity(intent);
+//                result = true;
+//                break;
             case R.id.menu_activity_partylist:
                 intent = new Intent(this, Partylist.class);
                 startActivity(intent);
@@ -111,4 +135,5 @@ public class Budget extends AppCompatActivity {
         }
         return result;
     }
+
 }

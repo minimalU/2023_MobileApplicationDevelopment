@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,9 +25,6 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
     CalendarView cv_Calendar;
     TextView tv_calDateText;
     Button btn_Plan;
-
     EditText setBudget;
+    AirplaneReceiver pReceiver = null;
+    IntentFilter filter = null;
+
+    private static final String TAG = "Main";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -68,8 +70,66 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        // A3 - broadcast receiver
+        pReceiver = new AirplaneReceiver();
+
     }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(pReceiver, filter);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
+        }
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -107,10 +167,12 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.menu_activity_food:
-                intent = new Intent(this, Food.class);
+                //intent = new Intent(this, Food.class);
+                intent = new Intent(this, PartyFood.class);
                 startActivity(intent);
                 result = true;
                 break;
+
 //            case R.id.menu_activity_explore:
 //                intent = new Intent(this, Explore.class);
 //                startActivity(intent);
