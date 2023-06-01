@@ -1,22 +1,24 @@
-// FILE         : DBHelper.java
+// FILE         : MainActivity.java
 // PROJECT      : Party Planner
 // PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
-// FIRST VERSION: 2023-03-15
-// DESCRIPTION  : This file is SQLiteOpenHelper class file.
-// It creates the data base table and add data into a table
-// and delete data from a table and get data as an ArrayList.
+// FIRST VERSION: 2023-02-05
+// DESCRIPTION  : This file is MainActivity class file. It is main entry for PartyPlanner application.
 
 package com.example.partyplanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,10 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     Button btn_Plan;
     EditText setBudget;
     AirplaneReceiver pReceiver = null;
-    IntentFilter filter = null;
+    BatteryReceiver bReceiver = null;
+    IntentFilter aFilter = null;
+    IntentFilter bFilter = null;
 
     private static final String TAG = "Main";
 
@@ -71,8 +79,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // A3 - broadcast receiver
-        pReceiver = new AirplaneReceiver();
+        // A3 - Airplane, battery receivers
+        pReceiver = new AirplaneReceiver(this);
+        bReceiver = new BatteryReceiver(this);
+
+
+        final long TIME = 60000; //stops service after one minute
+        final Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
+        startService(serviceIntent);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                stopService(serviceIntent);
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, TIME);
+
 
     }
 
@@ -85,51 +108,64 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         super.onResume();
-        filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        registerReceiver(pReceiver, filter);
+
+        // A3 - filters for broadcast receivers
+        aFilter = new IntentFilter();
+        aFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(pReceiver, aFilter);
+
+        bFilter = new IntentFilter(Intent.ACTION_BATTERY_LOW);
+        registerReceiver(bReceiver, bFilter);
+
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
+
+        // A3 - broadcast receiver
         if(pReceiver != null){
             try{
                 unregisterReceiver(pReceiver);
+                unregisterReceiver(bReceiver);
             } catch (Exception e) {
-                Log.e(TAG, "ScheduleData completion");
+                Log.e(TAG, "Broadcast receiver");
             }
         }
     }
 
     @Override
     protected void onStop() {
-
         super.onStop();
+
+        // A3 - broadcast receiver
         if(pReceiver != null){
             try{
                 unregisterReceiver(pReceiver);
+                unregisterReceiver(bReceiver);
             } catch (Exception e) {
-                Log.e(TAG, "ScheduleData completion");
+                Log.e(TAG, "Broadcast receiver");
             }
         }
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
+
+        // A3 - broadcast receiver
         if(pReceiver != null){
             try{
                 unregisterReceiver(pReceiver);
+                unregisterReceiver(bReceiver);
             } catch (Exception e) {
-                Log.e(TAG, "ScheduleData completion");
+                Log.e(TAG, "Broadcast receiver");
             }
         }
     }
+
+
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -173,11 +209,12 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
                 break;
 
-//            case R.id.menu_activity_explore:
-//                intent = new Intent(this, Explore.class);
-//                startActivity(intent);
-//                result = true;
-//                break;
+            case R.id.menu_activity_explore:
+                intent = new Intent(this, ScheduleCheck.class);
+                startActivity(intent);
+                result = true;
+                break;
+
             case R.id.menu_activity_partylist:
                 intent = new Intent(this, Partylist.class);
                 startActivity(intent);

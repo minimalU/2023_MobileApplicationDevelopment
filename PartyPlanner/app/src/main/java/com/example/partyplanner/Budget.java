@@ -1,11 +1,3 @@
-// FILE         : Budget.java
-// PROJECT      : A2PartyPlanner
-// PROGRAMMER(s): Beunard Lecaj, Jainish Patel, Raj Dudhat, Yujung Park
-// FIRST VERSION: 2023-03-10
-// DESCRIPTION  : This is AppCompatActivity class file.
-// It has budget activity and user completes their Budget information though this activity.
-
-
 package com.example.partyplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +12,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
+import android.content.DialogInterface;
+import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class Budget extends AppCompatActivity {
+public class Budget extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     TextView budgetText;
+    private double initialBudget;
+
+    private SeekBar seekBar5, seekBar3, seekBar2;
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
@@ -32,42 +33,79 @@ public class Budget extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
 
-        budgetText = (TextView) findViewById(R.id.BudgetValText);
+        budgetText = findViewById(R.id.BudgetValText);
+
+        seekBar5 = findViewById(R.id.seekBar5);
+        seekBar3 = findViewById(R.id.seekBar3);
+        seekBar2 = findViewById(R.id.seekBar2);
+
+        seekBar5.setOnSeekBarChangeListener(this);
+        seekBar3.setOnSeekBarChangeListener(this);
+        seekBar2.setOnSeekBarChangeListener(this);
 
         double revBudget;
-        try{
+        try {
             Intent intent = getIntent();
             revBudget = intent.getDoubleExtra("budget", 0.00);
             budgetText.setText("CAD " + revBudget);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("Budget", "Error");
             revBudget = 0.00;
             budgetText.setText("CAD " + revBudget);
         }
+        initialBudget = revBudget;
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         View cLayout = findViewById(R.id.BudgetActivity);
         cLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)budgetText.getContext()
+                InputMethodManager imm = (InputMethodManager) budgetText.getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(budgetText.getWindowToken(), 0);
             }
         });
-    }
 
+        Button updateBudgetButton = findViewById(R.id.update_budget_button);
+        updateBudgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUpdateBudgetDialog();
+            }
+        });
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        MenuBuilder m = (MenuBuilder)menu;
+        MenuBuilder m = (MenuBuilder) menu;
         m.setOptionalIconsVisible(true);
         return true;
     }
 
+    private void showUpdateBudgetDialog() {
+        updateBudgetText();
+        double remainingBudget = initialBudget - ((seekBar5.getProgress() * 0.01) * initialBudget + (seekBar3.getProgress() * 0.01) * initialBudget + (seekBar2.getProgress() * 0.01) * initialBudget);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Budget");
+        builder.setMessage("Are you sure you want to update the budget?\nRemaining budget: CAD " + String.format("%.2f", remainingBudget));
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(Budget.this, "Success!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,10 +134,18 @@ public class Budget extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.menu_activity_food:
+                //intent = new Intent(this, Food.class);
                 intent = new Intent(this, PartyFood.class);
                 startActivity(intent);
                 result = true;
                 break;
+
+            case R.id.menu_activity_explore:
+                intent = new Intent(this, ScheduleCheck.class);
+                startActivity(intent);
+                result = true;
+                break;
+
             case R.id.menu_activity_partylist:
                 intent = new Intent(this, Partylist.class);
                 startActivity(intent);
@@ -110,5 +156,27 @@ public class Budget extends AppCompatActivity {
                 break;
         }
         return result;
+    }
+
+
+    private void updateBudgetText() {
+        double totalSpent = (seekBar5.getProgress() * 0.01) * initialBudget + (seekBar3.getProgress() * 0.01) * initialBudget + (seekBar2.getProgress() * 0.01) * initialBudget;
+        double remainingBudget = initialBudget - totalSpent;
+        budgetText.setText("CAD " + String.format("%.2f", remainingBudget));
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        updateBudgetText();
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

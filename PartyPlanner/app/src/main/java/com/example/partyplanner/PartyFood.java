@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +20,19 @@ import androidx.appcompat.view.menu.MenuBuilder;
 
 public class PartyFood extends AppCompatActivity {
 
+    private static final String TAG = "PartyFood";
     private Button btService;
-    private TextView txService;
+
     private boolean bService = false;
     private WebView webView;
     private pfReceiver receiver;
+
+
+    AirplaneReceiver pReceiver = null;
+    IntentFilter filter = null;
+
+    BatteryReceiver bReceiver = null;
+    IntentFilter bFilter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +40,32 @@ public class PartyFood extends AppCompatActivity {
         setContentView(R.layout.activity_partyfood);
 
         btService = findViewById(R.id.btn_check);
-        txService = findViewById(R.id.tv_check_result);
         webView = (WebView) findViewById(R.id.wv_partyfood);
 
+        final Intent intent = new Intent(this, pfService.class);
+
+        // user checks connection as many as they want
         btService.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exeService();
-            }
+                if (!bService) {
+                        startService(intent);
+                        btService.setText("STOP");
+                    }
+                    else {
+                        stopService(intent);
+                        btService.setText("CHECK");
+                    }
+                    bService = !bService;
+                }
         }));
 
-        receiver = new pfReceiver();
+        // A3 - pfService BRAODCAST receiver
+        receiver = new pfReceiver(this);
         IntentFilter intentFilter = new IntentFilter("pfService");
         registerReceiver(receiver, intentFilter);
+
+
 
         // setup webview
         webView.setWebViewClient(new WebViewClient());
@@ -51,29 +73,74 @@ public class PartyFood extends AppCompatActivity {
 
         WebSettings setting = webView.getSettings();
         setting.setJavaScriptEnabled(true);
+
+
+        // A3 - AirPlane mode BRAODCAST receiver
+        pReceiver = new AirplaneReceiver(this);
     }
 
-    protected void exeService() {
-        Intent intent = new Intent(this, pfService.class);
-        if (!bService) {
-            startService(intent);
-            btService.setText("STOP");
-            txService.setText("checking connectivity");
-        }
-        else {
-            stopService(intent);
-            btService.setText("CHECK");
-            txService.setText("connectivity check is done");
-        }
-        bService = !bService;
-    }
-
+    // webview use go back
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack();
-        } else {
+        } else if (webView.canGoForward()) {
+            webView.goForward();
+        }else {
             super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // A3 - broadcast receiver
+        filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(pReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // A3 - broadcast receiver
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // A3 - broadcast receiver
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // A3 - broadcast receiver
+        if(pReceiver != null){
+            try{
+                unregisterReceiver(pReceiver);
+            } catch (Exception e) {
+                Log.e(TAG, "ScheduleData completion");
+            }
         }
     }
 

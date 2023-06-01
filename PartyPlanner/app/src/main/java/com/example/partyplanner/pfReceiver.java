@@ -1,23 +1,35 @@
 package com.example.partyplanner;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class pfReceiver extends BroadcastReceiver {
 
+    private Context context;
+
+    // constructor
+    public pfReceiver(Context context) {
+        this.context = context;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        // throw new UnsupportedOperationException("Not yet implemented");
 
         String action = intent.getAction();
         if (action.equals("pfService")) {
             String receivedMsg = intent.getStringExtra("msg");
             String printMsg = receivedMsg;
-            Toast.makeText(context, printMsg, Toast.LENGTH_SHORT).show();
+
+            // display result using Snack bar
+            Snackbar.make(((Activity)this.context).findViewById(android.R.id.content),
+                    receivedMsg, Snackbar.LENGTH_LONG).show();
+
         }
     }
 }

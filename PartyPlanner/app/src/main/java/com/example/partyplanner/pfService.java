@@ -14,6 +14,8 @@ import androidx.annotation.RequiresApi;
 
 public class pfService extends Service {
 
+    private static final String TAG = "pfService";
+
     public pfService() {
     }
 
@@ -22,46 +24,42 @@ public class pfService extends Service {
     public void onCreate() {
     }
 
+    // user startService and stop as many as they want
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        int nResult = super.onStartCommand(intent, flags, startId);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    String message = null;
-                    // check network connectivity and capabilities
-                    ConnectivityManager cManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-                    NetworkInfo nInfo = cManager.getActiveNetworkInfo();
-                    if (nInfo != null && nInfo.isConnected()) {
-                        Log.i("PartyApp","network connected");
-                        if (nInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                            message = "NETWORK-WIFI is working fine";
-                        } else if (nInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                            message = "NETWORK-CELLULAR is working fine";
-                        } else {
-                            message = "network issue";
-                            Log.i("PartyApp", "NETWORK ISSUE");
-                        }
-                    }
-                    Thread.sleep(2000);
-                    Intent myIntent = new Intent("pfService");
-                    myIntent.putExtra("msg", message);
-                    sendBroadcast(myIntent);
-                } catch(InterruptedException e) {
-                    e.printStackTrace();
+        try{
+            String message = null;
+            // check network connectivity and capabilities
+            ConnectivityManager cManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cManager.getActiveNetworkInfo();
+            if (nInfo != null && nInfo.isConnected()) {
+                Log.i("PartyApp","network connected");
+                if (nInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    message = "WIFI NETWORK is working fine";
+                } else if (nInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    message = "CELLULAR NETWORK is working fine";
+                } else {
+                    message = "network issue";
+                    Log.i("PartyApp", "NETWORK ISSUE");
                 }
             }
-        }).start();
-        return nResult;
+            Intent myIntent = new Intent("pfService");
+            myIntent.putExtra("msg", message);
+            sendBroadcast(myIntent);
+
+            // User does not stopService() quickly enough
+            Thread.sleep(60);
+        } catch (Exception e) {
+            Log.e(TAG, "Broadcast receiver");
+        }
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        // no binding
+        return null;
     }
 
     @Override

@@ -12,11 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/check" />
 
-    <TextView
-        android:id="@+id/tv_check_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <WebView
         android:id="@+id/wv_partyfood"
         android:layout_width="match_parent"

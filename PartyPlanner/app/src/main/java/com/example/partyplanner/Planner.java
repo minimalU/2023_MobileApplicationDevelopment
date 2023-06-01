@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,10 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,19 +67,12 @@ public class Planner extends AppCompatActivity {
         btn_to_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ScheduleData scheduleData;
+                PartyData partyData;
                 try {
                     BackgroundTask task = new BackgroundTask(Planner.this);
                     task.execute();
-
-                    // scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
-                    // DBHelper dataBaseHelper = new DBHelper(Planner.this);
-                    // boolean returnValue = dataBaseHelper.addItem(scheduleData);
-                    // Toast.makeText(Planner.this, "returnValue: " + returnValue, Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e) {
-                    // Toast.makeText(Planner.this, "Error: Party schedule cannot be added", Toast.LENGTH_SHORT).show();
-                    // scheduleData = new ScheduleData(-1, "error", "error" , "error", 0, 0);
                     Log.e(TAG, "BackgroundTask Error");
                 }
             }
@@ -117,8 +107,6 @@ public class Planner extends AppCompatActivity {
         m.setOptionalIconsVisible(true);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,13 +165,13 @@ public class Planner extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... unused) {
             try{
-                ScheduleData scheduleData;
-                scheduleData = new ScheduleData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
+                PartyData partyData;
+                partyData = new PartyData(-1, et_date.getText().toString(), et_time.getText().toString(), et_theme.getText().toString(), Float.parseFloat(et_budget.getText().toString()), Integer.parseInt(et_guest.getText().toString()));
                 DBHelper dataBaseHelper = new DBHelper(Planner.this);
-                boolean returnValue = dataBaseHelper.addItem(scheduleData);
+                long returnValue = dataBaseHelper.addItem(partyData);
             }
             catch (Exception e) {
-                Log.e(TAG, "ScheduleData completion");
+                Log.e(TAG, "ScheduleData");
             }
 
             return null;

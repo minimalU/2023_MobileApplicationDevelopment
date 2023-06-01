@@ -1,20 +1,27 @@
 <resources>
+    <string name="add">ADD</string>
     <string name="app_name">PartyPlanner</string>
-    <string name="check">Check</string>
-    <string name="select_date">Please select a date</string>
+    <string name="budget">BUDGET</string>
+
+    <string name="cancel">CANCEL</string>
+    <string name="calendar_schedule">CALENDAR SCHEDULE</string>
+    <string name="check">NETWORK CHECK</string>
+    <string name="checklist">CHECKLIST</string>
+
     <string name="date">DATE</string>
+    <string name="delete">DELETE</string>
+
+    <string name="guest">NO OF GUEST</string>
+
+    <string name="select_date">Please select a date</string>
+
     <string name="time">TIME</string>
     <string name="theme">THEME</string>
-    <string name="budget">BUDGET</string>
-    <string name="guest">NO OF GUEST</string>
+
     <string name="next">NEXT</string>
-    <string name="checklist">CHECKLIST</string>
     <string name="planner">PLANNER</string>
     <string name="start">START</string>
     <string name="save">SAVE</string>
-    <string name="add">ADD</string>
-    <string name="delete">DELETE</string>
-    <string name="cancel">CANCEL</string>
     <string name="party_list">PARTY LIST</string>
     <string name="recipe">RECIPE</string>
     <string name="all_schedule">ALL SCHEDULE</string>

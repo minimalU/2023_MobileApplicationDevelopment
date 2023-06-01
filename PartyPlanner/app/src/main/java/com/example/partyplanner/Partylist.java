@@ -12,37 +12,31 @@
 package com.example.partyplanner;
 
 import android.annotation.SuppressLint;
-import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
-import java.util.Currency;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Partylist extends AppCompatActivity {
 
     Button button_list;
     ListView party_list;
-    ScheduleData scheduleSelected;
+    PartyData scheduleSelected;
     DBHelper dbHelper;
 
     @Override
@@ -51,22 +45,26 @@ public class Partylist extends AppCompatActivity {
         setContentView(R.layout.activity_partylist);
 
         button_list = findViewById(R.id.buttonList);
-
         party_list = findViewById(R.id.listViewPartylist);
+
         dbHelper = new DBHelper(Partylist.this);
 
-        button_list.setOnClickListener((v -> {
 
-            List<ScheduleData> allList = dbHelper.getSchedule();
-            ArrayAdapter partylistArrayAdaptor = new ArrayAdapter<ScheduleData>(Partylist.this, android.R.layout.simple_list_item_1, allList);
+        button_list.setOnClickListener((v -> {
+            List<PartyData> allList = dbHelper.getSchedule();
+            ArrayAdapter partylistArrayAdaptor = new ArrayAdapter<PartyData>(Partylist.this, android.R.layout.simple_list_item_1, allList);
             party_list.setAdapter(partylistArrayAdaptor);
+
+            //displayParty();
+
         }));
+
 
         // setOnItemClick
         party_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                scheduleSelected = (ScheduleData)parent.getItemAtPosition(position);
+                scheduleSelected = (PartyData)parent.getItemAtPosition(position);
 
                 String partyItem = parent.getItemAtPosition(position).toString();
                 int listID = dbHelper.getID(scheduleSelected);
@@ -81,6 +79,16 @@ public class Partylist extends AppCompatActivity {
 
         });
     }
+
+    public void displayParty() {
+        List<PartyData> allList = new ArrayList<>();
+
+        String str_uri = "content://com.example.partyplanner/party";
+        Uri uri = new Uri.Builder().build().parse(str_uri);
+
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+    }
+
 
 
     // menu option
@@ -120,10 +128,18 @@ public class Partylist extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.menu_activity_food:
+                //intent = new Intent(this, Food.class);
                 intent = new Intent(this, PartyFood.class);
                 startActivity(intent);
                 result = true;
                 break;
+
+            case R.id.menu_activity_explore:
+                intent = new Intent(this, ScheduleCheck.class);
+                startActivity(intent);
+                result = true;
+                break;
+
             case R.id.menu_activity_partylist:
                 intent = new Intent(this, Partylist.class);
                 startActivity(intent);
@@ -135,6 +151,7 @@ public class Partylist extends AppCompatActivity {
         }
         return result;
     }
+
 
 
 }

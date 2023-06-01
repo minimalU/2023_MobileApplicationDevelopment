@@ -16,6 +16,9 @@
         android:id="@+id/menu_activity_partylist"
         android:title="@string/party_list" />
     <item
+        android:id="@+id/menu_activity_explore"
+        android:title="SCHEDULE" />
+    <item
         android:id="@+id/menu_activity_food"
         android:title="@string/recipe" />
 <!--    <item-->

@@ -106,7 +106,7 @@
     <EditText
         android:id="@+id/editText3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
         android:hint="Invitations"
         android:inputType="textPersonName"
@@ -132,7 +132,7 @@
     <EditText
         android:id="@+id/editText5"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
         android:hint="Venue"
         android:inputType="textPersonName"
@@ -143,5 +143,14 @@
         app:layout_constraintTop_toTopOf="@+id/venuecheck"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Button
+        android:id="@+id/openDialogbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Contact Permissions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskCompBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
